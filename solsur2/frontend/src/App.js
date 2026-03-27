@@ -26,9 +26,12 @@ export default function App() {
       <Toaster position="top-right" toastOptions={{
         duration: 3500,
         style: {
-          fontFamily: "'Gill Sans','Optima','Century Gothic',sans-serif",
-          fontSize: 13, borderRadius: 2, border: '1px solid #e8e8e8',
-          boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+          fontFamily: "'Jost', 'Optima', sans-serif",
+          fontWeight: 300,
+          fontSize: 13, borderRadius: 2, border: '1px solid rgba(0,0,0,0.04)',
+          boxShadow: '0 8px 30px rgba(0,0,0,0.06)',
+          background: '#fff',
+          color: '#2c2c2c'
         },
         success: { iconTheme: { primary: '#2d6a2d', secondary: '#fff' } },
         error:   { iconTheme: { primary: '#8a2020', secondary: '#fff' } },

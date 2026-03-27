@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { invoiceService, saleService } from '../../services/api';
+import axios from 'axios';
 import { PageHeader, Btn, Badge, Table, TR, TD, Spinner, Modal, Input, Select, Textarea, fmt, fmtDate, ICONS, Icon } from '../shared';
 import toast from 'react-hot-toast';
 
@@ -136,6 +137,7 @@ export default function InvoiceSection() {
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [exporting, setExporting] = useState(false);
+  const [afipStatus, setAfipStatus] = useState(null);
 
   const handleExport = async (type) => {
     setExporting(true);
@@ -160,6 +162,12 @@ export default function InvoiceSection() {
   }, []);
 
   useEffect(() => { load(); }, [load]);
+
+  useEffect(() => {
+    axios.get('http://localhost:8080/api/afip/estado')
+      .then(r => setAfipStatus(r.data))
+      .catch(() => setAfipStatus(null));
+  }, []);
 
   const handleDelete = async (id) => {
     if (!window.confirm('¿Eliminar este comprobante?')) return;
@@ -187,7 +195,7 @@ export default function InvoiceSection() {
 
       {loading ? <Spinner /> : (
         <Table
-          headers={['Tipo', 'Nº Comprobante', 'Receptor', 'CUIT', 'Neto', 'IVA', 'Total', 'Emisión', 'Estado', '']}
+          headers={['Tipo', 'Nº Comprobante', 'Receptor', 'Neto', 'IVA', 'Total', 'CAE', 'Estado', '']}
           isEmpty={invoices.length === 0} emptyMsg="No hay comprobantes registrados"
         >
           {invoices.map((inv, i) => (
@@ -195,11 +203,15 @@ export default function InvoiceSection() {
               <TD><span style={{ fontSize: 12, fontWeight: 600 }}>{inv.invoiceType}</span></TD>
               <TD><span style={{ fontFamily: 'monospace', fontSize: 12 }}>{inv.puntoVenta}-{inv.numero || '—'}</span></TD>
               <TD>{inv.razonSocial || '—'}</TD>
-              <TD style={{ color: '#888' }}>{inv.cuit || '—'}</TD>
               <TD style={{ color: '#666' }}>{fmt(inv.montoNeto)}</TD>
               <TD style={{ color: '#666' }}>{fmt(inv.montoIva)}</TD>
               <TD><strong>{fmt(inv.total)}</strong></TD>
-              <TD>{fmtDate(inv.fechaEmision)}</TD>
+              <TD>
+                {inv.cae
+                  ? <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#2d6a2d' }}>{inv.cae}</span>
+                  : <span style={{ fontSize: 11, color: '#bbb' }}>Sin CAE</span>
+                }
+              </TD>
               <TD>
                 <Badge
                   text={inv.status}

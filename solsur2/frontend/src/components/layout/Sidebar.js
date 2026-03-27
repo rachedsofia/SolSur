@@ -16,19 +16,20 @@ export default function Sidebar({ section, setSection, children }) {
   const today = new Date().toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long' });
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: '#f5f5f3', fontFamily: "'Gill Sans','Optima','Century Gothic',sans-serif" }}>
-      <aside style={{ width: 220, background: '#fff', borderRight: '1px solid #e8e8e8',
+    <div style={{ display: 'flex', minHeight: '100vh', background: '#fafafa' }}>
+      <aside style={{ width: 220, background: '#111', borderRight: '1px solid rgba(255,255,255,0.05)',
+        boxShadow: '2px 0 20px rgba(0,0,0,0.1)',
         display: 'flex', flexDirection: 'column', position: 'fixed', top: 0, bottom: 0, left: 0, zIndex: 100 }}>
         
         {/* Logo */}
-        <div style={{ padding: '20px 24px 18px', borderBottom: '1px solid #f0f0f0',
+        <div style={{ padding: '30px 24px 20px', borderBottom: '1px solid rgba(255,255,255,0.05)',
           display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <img
             src={LOGO}
             alt="SolSur"
-            style={{ width: 80, height: 80, objectFit: 'contain' }}
+            style={{ width: 70, height: 70, objectFit: 'contain', opacity: 0.9, filter: 'invert(1)' }}
           />
-          <div style={{ fontSize: 9, letterSpacing: 2, color: '#bbb', textTransform: 'uppercase', marginTop: 4 }}>
+          <div style={{ fontSize: 9, letterSpacing: 3, color: '#777', textTransform: 'uppercase', marginTop: 12, fontWeight: 400 }}>
             Sistema de Gestión
           </div>
         </div>
@@ -39,16 +40,17 @@ export default function Sidebar({ section, setSection, children }) {
             const active = section === id;
             return (
               <button key={id} onClick={() => setSection(id)} style={{
-                width: '100%', display: 'flex', alignItems: 'center', gap: 10,
-                padding: '10px 24px', border: 'none', borderRadius: 0, cursor: 'pointer',
-                background: active ? '#111' : 'transparent',
-                color: active ? '#fff' : '#666',
-                fontSize: 12, letterSpacing: 0.5, fontFamily: 'inherit',
-                transition: 'all 0.12s',
+                width: '100%', display: 'flex', alignItems: 'center', gap: 12,
+                padding: '12px 24px', border: 'none', borderRadius: 0, cursor: 'pointer',
+                background: active ? '#222' : 'transparent',
+                color: active ? '#fff' : '#888',
+                fontWeight: active ? 400 : 300,
+                fontSize: 13, letterSpacing: 1, fontFamily: 'inherit',
+                transition: 'all 0.25s ease',
                 borderLeft: active ? '3px solid #fff' : '3px solid transparent',
               }}
-                onMouseEnter={e => { if (!active) e.currentTarget.style.background = '#f5f5f3'; }}
-                onMouseLeave={e => { if (!active) e.currentTarget.style.background = 'transparent'; }}
+                onMouseEnter={e => { if (!active) e.currentTarget.style.background = '#1a1a1a'; e.currentTarget.style.color = active ? '#fff' : '#aaa'; }}
+                onMouseLeave={e => { if (!active) e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = active ? '#fff' : '#888'; }}
               >
                 <Icon path={icon} size={15} />
                 {label}
@@ -58,8 +60,8 @@ export default function Sidebar({ section, setSection, children }) {
         </nav>
 
         {/* Date */}
-        <div style={{ padding: '16px 24px', borderTop: '1px solid #f0f0f0' }}>
-          <div style={{ fontSize: 10, color: '#ccc', letterSpacing: 0.5, textTransform: 'capitalize' }}>{today}</div>
+        <div style={{ padding: '16px 24px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+          <div style={{ fontSize: 10, color: '#666', letterSpacing: 1, textTransform: 'capitalize', fontWeight: 300 }}>{today}</div>
         </div>
       </aside>
 

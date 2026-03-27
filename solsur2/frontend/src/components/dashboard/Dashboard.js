@@ -39,19 +39,20 @@ export default function Dashboard() {
       {/* Charts Row */}
       <div style={{ display: 'grid', gridTemplateColumns: '3fr 2fr', gap: 20, marginBottom: 20 }}>
         {/* Monthly Chart */}
-        <div style={{ background: '#fff', border: '1px solid #e8e8e8', borderRadius: 2, padding: 28 }}>
-          <h3 style={{ fontSize: 10, letterSpacing: 2, textTransform: 'uppercase', color: '#999', margin: '0 0 24px' }}>Ventas Mensuales {new Date().getFullYear()}</h3>
-          <ResponsiveContainer width="100%" height={180}>
+        <div style={{ background: '#fff', border: '1px solid rgba(0,0,0,0.04)', borderRadius: 6, padding: '36px', boxShadow: '0 4px 20px rgba(0,0,0,0.02)' }}>
+          <h3 style={{ fontSize: 11, letterSpacing: 2, textTransform: 'uppercase', color: '#999', margin: '0 0 32px', fontWeight: 500 }}>Ventas Mensuales {new Date().getFullYear()}</h3>
+          <ResponsiveContainer width="100%" height={200}>
             <BarChart data={chartData} margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
-              <XAxis dataKey="monthName" tick={{ fontSize: 10, fill: '#999' }} axisLine={false} tickLine={false} />
+              <XAxis dataKey="monthName" tick={{ fontSize: 11, fill: '#aaa', fontWeight: 300 }} axisLine={false} tickLine={false} dy={10} />
               <YAxis hide />
               <Tooltip
                 formatter={(v) => [fmt(v), 'Ventas']}
-                contentStyle={{ border: '1px solid #e8e8e8', borderRadius: 2, fontSize: 12 }}
+                contentStyle={{ border: '1px solid rgba(0,0,0,0.06)', borderRadius: 6, fontSize: 12, boxShadow: '0 8px 30px rgba(0,0,0,0.05)', fontWeight: 300 }}
+                cursor={{ fill: '#fafafa' }}
               />
-              <Bar dataKey="amount" radius={[2, 2, 0, 0]}>
+              <Bar dataKey="amount" radius={[4, 4, 0, 0]}>
                 {chartData.map((_, i) => (
-                  <Cell key={i} fill={i === new Date().getMonth() ? '#111' : '#e8e8e8'} />
+                  <Cell key={i} fill={i === new Date().getMonth() ? '#2c2c2c' : '#f0f0f0'} />
                 ))}
               </Bar>
             </BarChart>
@@ -59,26 +60,26 @@ export default function Dashboard() {
         </div>
 
         {/* Ventas vs Compras */}
-        <div style={{ background: '#fff', border: '1px solid #e8e8e8', borderRadius: 2, padding: 28 }}>
-          <h3 style={{ fontSize: 10, letterSpacing: 2, textTransform: 'uppercase', color: '#999', margin: '0 0 24px' }}>Ventas vs. Compras</h3>
+        <div style={{ background: '#fff', border: '1px solid rgba(0,0,0,0.04)', borderRadius: 6, padding: '36px', boxShadow: '0 4px 20px rgba(0,0,0,0.02)' }}>
+          <h3 style={{ fontSize: 11, letterSpacing: 2, textTransform: 'uppercase', color: '#999', margin: '0 0 32px', fontWeight: 500 }}>Ventas vs. Compras</h3>
           {[
-            { label: 'Ventas', value: stats.totalSales, pct: salesPct, color: '#111' },
-            { label: 'Compras', value: stats.totalPurchases, pct: purchasesPct, color: '#ddd' },
+            { label: 'Ventas', value: stats.totalSales, pct: salesPct, color: '#2c2c2c' },
+            { label: 'Compras', value: stats.totalPurchases, pct: purchasesPct, color: '#e0e0e0' },
           ].map(item => (
-            <div key={item.label} style={{ marginBottom: 22 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
-                <span style={{ fontSize: 11, letterSpacing: 1, textTransform: 'uppercase', color: '#666' }}>{item.label}</span>
-                <span style={{ fontSize: 13, fontWeight: 700 }}>{fmt(item.value)}</span>
+            <div key={item.label} style={{ marginBottom: 28 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12 }}>
+                <span style={{ fontSize: 11, letterSpacing: 1.5, textTransform: 'uppercase', color: '#888', fontWeight: 400 }}>{item.label}</span>
+                <span style={{ fontSize: 14, fontWeight: 500, color: '#111' }}>{fmt(item.value)}</span>
               </div>
-              <div style={{ background: '#f0f0f0', height: 6, borderRadius: 1 }}>
-                <div style={{ width: `${item.pct}%`, background: item.color, height: '100%', borderRadius: 1, transition: 'width 1s ease' }} />
+              <div style={{ background: '#fafafa', height: 4, borderRadius: 2 }}>
+                <div style={{ width: `${item.pct}%`, background: item.color, height: '100%', borderRadius: 2, transition: 'width 1s ease' }} />
               </div>
             </div>
           ))}
-          <div style={{ marginTop: 20, padding: '16px 0', borderTop: '1px solid #f0f0f0', display: 'flex', justifyContent: 'space-between' }}>
-            <span style={{ fontSize: 12, color: '#666' }}>Margen bruto</span>
+          <div style={{ marginTop: 28, padding: '20px 0 0', borderTop: '1px solid rgba(0,0,0,0.04)', display: 'flex', justifyContent: 'space-between' }}>
+            <span style={{ fontSize: 12, color: '#777', fontWeight: 400 }}>Margen bruto</span>
             <span style={{
-              fontSize: 16, fontWeight: 700, fontFamily: 'Georgia, serif',
+              fontSize: 18, fontWeight: 600,
               color: Number(stats.grossMargin) >= 0 ? '#2d6a2d' : '#8a2020'
             }}>{fmt(stats.grossMargin)}</span>
           </div>
@@ -90,7 +91,7 @@ export default function Dashboard() {
               {stats.paymentStats.map(p => (
                 <div key={p.method} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, marginBottom: 6 }}>
                   <span style={{ color: '#666' }}>{p.method}</span>
-                  <span style={{ fontWeight: 600 }}>{fmt(p.amount)}</span>
+                  <span style={{ fontWeight: 500 }}>{fmt(p.amount)}</span>
                 </div>
               ))}
             </div>
@@ -100,17 +101,17 @@ export default function Dashboard() {
 
       {/* Recent Sales */}
       <div style={{ display: 'grid', gridTemplateColumns: '3fr 2fr', gap: 20 }}>
-        <div style={{ background: '#fff', border: '1px solid #e8e8e8', borderRadius: 2, padding: 28 }}>
-          <h3 style={{ fontSize: 10, letterSpacing: 2, textTransform: 'uppercase', color: '#999', margin: '0 0 20px' }}>Últimas Ventas</h3>
+        <div style={{ background: '#fff', border: '1px solid rgba(0,0,0,0.04)', borderRadius: 6, padding: '36px', boxShadow: '0 4px 20px rgba(0,0,0,0.02)' }}>
+          <h3 style={{ fontSize: 11, letterSpacing: 2, textTransform: 'uppercase', color: '#999', margin: '0 0 24px', fontWeight: 500 }}>Últimas Ventas</h3>
           {(stats.recentSales || []).map(s => (
-            <div key={s.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '11px 0', borderBottom: '1px solid #f5f5f5' }}>
+            <div key={s.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 0', borderBottom: '1px solid rgba(0,0,0,0.03)' }}>
               <div>
-                <p style={{ fontSize: 13, fontWeight: 600, margin: 0 }}>{s.client}</p>
-                <p style={{ fontSize: 11, color: '#999', margin: '2px 0 0' }}>{s.productName} · {fmtDate(s.date)}</p>
+                <p style={{ fontSize: 14, fontWeight: 500, margin: 0, color: '#111' }}>{s.client}</p>
+                <p style={{ fontSize: 12, color: '#aaa', margin: '4px 0 0', fontWeight: 400 }}>{s.productName} · {fmtDate(s.date)}</p>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
                 <Badge text={s.invoiceStatus} type={s.invoiceStatus === 'Facturado' ? 'success' : 'warning'} />
-                <span style={{ fontSize: 14, fontWeight: 700 }}>{fmt(s.totalAmount)}</span>
+                <span style={{ fontSize: 15, fontWeight: 500, color: '#222' }}>{fmt(s.totalAmount)}</span>
               </div>
             </div>
           ))}
@@ -119,31 +120,31 @@ export default function Dashboard() {
         {/* Alerts */}
         <div>
           {stats.lowStockCount > 0 && (
-            <div style={{ background: '#fffbf0', border: '1px solid #f0d070', borderRadius: 2, padding: 20, marginBottom: 16 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
-                <Icon path={ICONS.alert} size={15} />
-                <span style={{ fontSize: 10, letterSpacing: 2, textTransform: 'uppercase', fontWeight: 700, color: '#7a5f00' }}>Stock Bajo</span>
+            <div style={{ background: '#fefcf2', border: '1px solid rgba(122, 95, 0, 0.2)', borderRadius: 6, padding: '24px', marginBottom: 16 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
+                <Icon path={ICONS.alert} size={18} />
+                <span style={{ fontSize: 10, letterSpacing: 2.5, textTransform: 'uppercase', fontWeight: 400, color: '#7a5f00' }}>Stock Bajo</span>
               </div>
-              <p style={{ fontSize: 13, color: '#7a5f00', margin: 0 }}>
-                <strong>{stats.lowStockCount}</strong> producto{stats.lowStockCount !== 1 ? 's' : ''} con stock bajo
+              <p style={{ fontSize: 13, color: '#7a5f00', margin: 0, fontWeight: 300 }}>
+                <strong style={{ fontWeight: 500 }}>{stats.lowStockCount}</strong> producto{stats.lowStockCount !== 1 ? 's' : ''} con stock bajo
               </p>
             </div>
           )}
           {stats.outOfStockCount > 0 && (
-            <div style={{ background: '#fff0f0', border: '1px solid #f0b0b0', borderRadius: 2, padding: 20 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
-                <Icon path={ICONS.alert} size={15} />
-                <span style={{ fontSize: 10, letterSpacing: 2, textTransform: 'uppercase', fontWeight: 700, color: '#8a2020' }}>Sin Stock</span>
+            <div style={{ background: '#fdf2f2', border: '1px solid rgba(138, 32, 32, 0.2)', borderRadius: 6, padding: '24px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
+                <Icon path={ICONS.alert} size={18} />
+                <span style={{ fontSize: 10, letterSpacing: 2.5, textTransform: 'uppercase', fontWeight: 400, color: '#8a2020' }}>Sin Stock</span>
               </div>
-              <p style={{ fontSize: 13, color: '#8a2020', margin: 0 }}>
-                <strong>{stats.outOfStockCount}</strong> producto{stats.outOfStockCount !== 1 ? 's' : ''} sin stock
+              <p style={{ fontSize: 13, color: '#8a2020', margin: 0, fontWeight: 300 }}>
+                <strong style={{ fontWeight: 500 }}>{stats.outOfStockCount}</strong> producto{stats.outOfStockCount !== 1 ? 's' : ''} sin stock
               </p>
             </div>
           )}
-          <div style={{ background: '#fff', border: '1px solid #e8e8e8', borderRadius: 2, padding: 20, marginTop: 16 }}>
-            <p style={{ fontSize: 10, letterSpacing: 2, color: '#999', textTransform: 'uppercase', margin: '0 0 8px' }}>Catálogo</p>
-            <p style={{ fontSize: 36, fontFamily: 'Georgia, serif', fontWeight: 700, margin: '0 0 4px' }}>{stats.totalProducts}</p>
-            <p style={{ fontSize: 12, color: '#999', margin: 0 }}>productos registrados</p>
+          <div style={{ background: '#fff', border: '1px solid rgba(0,0,0,0.04)', borderRadius: 6, padding: '32px', marginTop: 24, boxShadow: '0 4px 20px rgba(0,0,0,0.02)' }}>
+            <p style={{ fontSize: 11, letterSpacing: 2, color: '#aaa', textTransform: 'uppercase', margin: '0 0 16px', fontWeight: 500 }}>Catálogo</p>
+            <p style={{ fontSize: 42, fontWeight: 500, margin: '0 0 8px', color: '#111' }}>{stats.totalProducts}</p>
+            <p style={{ fontSize: 12, color: '#999', margin: 0, fontWeight: 400 }}>productos registrados</p>
           </div>
         </div>
       </div>

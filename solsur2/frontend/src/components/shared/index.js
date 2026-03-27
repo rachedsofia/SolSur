@@ -2,18 +2,18 @@ import React from 'react';
 
 // ─── DESIGN TOKENS ────────────────────────────────────────────────────────────
 export const COLORS = {
-  black: '#111111',
-  darkGray: '#333333',
-  midGray: '#666666',
-  lightGray: '#999999',
-  border: '#e8e8e8',
-  borderLight: '#f0f0f0',
-  bg: '#f5f5f3',
+  black: '#1a1a1a',
+  darkGray: '#4a4a4a',
+  midGray: '#777777',
+  lightGray: '#aaaaaa',
+  border: 'rgba(0,0,0,0.06)',
+  borderLight: 'rgba(0,0,0,0.03)',
+  bg: '#fafafa',
   white: '#ffffff',
-  success: { bg: '#f0faf0', text: '#2d6a2d', border: '#b7d9b7' },
-  warning: { bg: '#fffbf0', text: '#7a5f00', border: '#f0d070' },
-  danger: { bg: '#fff0f0', text: '#8a2020', border: '#f0b0b0' },
-  info: { bg: '#f0f4ff', text: '#2040a0', border: '#b0c0f0' },
+  success: { bg: '#f2fcf2', text: '#2d6a2d', border: 'rgba(45, 106, 45, 0.2)' },
+  warning: { bg: '#fefcf2', text: '#7a5f00', border: 'rgba(122, 95, 0, 0.2)' },
+  danger: { bg: '#fdf2f2', text: '#8a2020', border: 'rgba(138, 32, 32, 0.2)' },
+  info: { bg: '#f2f6ff', text: '#2040a0', border: 'rgba(32, 64, 160, 0.2)' },
 };
 
 // ─── ICON ─────────────────────────────────────────────────────────────────────
@@ -69,8 +69,8 @@ export const Badge = ({ text, type = 'info' }) => {
   return (
     <span style={{
       background: s.bg, color: s.text, border: `1px solid ${s.border}`,
-      fontSize: 10, letterSpacing: 1, textTransform: 'uppercase',
-      padding: '3px 8px', borderRadius: 2, fontWeight: 600, whiteSpace: 'nowrap',
+      fontSize: 10, letterSpacing: 1.5, textTransform: 'uppercase',
+      padding: '4px 10px', borderRadius: 4, fontWeight: 400, whiteSpace: 'nowrap',
     }}>{text}</span>
   );
 };
@@ -78,26 +78,30 @@ export const Badge = ({ text, type = 'info' }) => {
 // ─── BUTTON ──────────────────────────────────────────────────────────────────
 export const Btn = ({ children, onClick, variant = 'primary', size = 'md', icon, disabled, type = 'button' }) => {
   const variants = {
-    primary: { background: '#111', color: '#fff', border: '1px solid #111' },
-    secondary: { background: '#fff', color: '#111', border: '1px solid #ddd' },
+    primary: { background: '#1a1a1a', color: '#fff', border: '1px solid #1a1a1a' },
+    secondary: { background: '#fff', color: '#1a1a1a', border: '1px solid rgba(0,0,0,0.1)' },
     ghost: { background: 'transparent', color: '#666', border: '1px solid transparent' },
-    danger: { background: '#8a2020', color: '#fff', border: '1px solid #8a2020' },
-    success: { background: '#1a5c2a', color: '#fff', border: '1px solid #1a5c2a' },
+    danger: { background: '#fff', color: '#8a2020', border: '1px solid rgba(138, 32, 32, 0.2)' },
+    success: { background: '#fff', color: '#1a5c2a', border: '1px solid rgba(26, 92, 42, 0.2)' },
   };
   const sizes = {
-    sm: { padding: '6px 14px', fontSize: 10 },
-    md: { padding: '10px 20px', fontSize: 11 },
-    lg: { padding: '13px 28px', fontSize: 12 },
+    sm: { padding: '6px 16px', fontSize: 11 },
+    md: { padding: '10px 24px', fontSize: 12 },
+    lg: { padding: '14px 32px', fontSize: 13 },
   };
   return (
     <button type={type} onClick={onClick} disabled={disabled} style={{
       ...variants[variant], ...sizes[size],
-      borderRadius: 2, cursor: disabled ? 'not-allowed' : 'pointer',
-      letterSpacing: 1.2, textTransform: 'uppercase', fontFamily: 'inherit',
-      fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 8,
-      opacity: disabled ? 0.5 : 1, transition: 'opacity 0.15s',
-    }}>
-      {icon && <Icon path={ICONS[icon]} size={14} />}
+      borderRadius: 4, cursor: disabled ? 'not-allowed' : 'pointer',
+      letterSpacing: 2, textTransform: 'uppercase', fontFamily: 'inherit',
+      fontWeight: 500, display: 'inline-flex', alignItems: 'center', gap: 10,
+      opacity: disabled ? 0.5 : 1, transition: 'all 0.25s ease',
+      boxShadow: (variant === 'primary' && !disabled) ? '0 4px 14px rgba(0,0,0,0.1)' : 'none',
+    }}
+      onMouseEnter={e => { if (!disabled) { e.currentTarget.style.transform = 'translateY(-1px)'; if (variant === 'secondary') e.currentTarget.style.borderColor = '#1a1a1a'; } }}
+      onMouseLeave={e => { if (!disabled) { e.currentTarget.style.transform = 'none'; if (variant === 'secondary') e.currentTarget.style.borderColor = 'rgba(0,0,0,0.1)'; } }}
+    >
+      {icon && <Icon path={ICONS[icon]} size={15} />}
       {children}
     </button>
   );
@@ -107,7 +111,7 @@ export const Btn = ({ children, onClick, variant = 'primary', size = 'md', icon,
 export const Field = ({ label, error, required, children, style = {} }) => (
   <div style={{ marginBottom: 16, ...style }}>
     {label && (
-      <label style={{ display: 'block', fontSize: 10, letterSpacing: 1.5, textTransform: 'uppercase', color: '#666', marginBottom: 6 }}>
+      <label style={{ display: 'block', fontSize: 10, letterSpacing: 2, textTransform: 'uppercase', color: '#555', marginBottom: 8, fontWeight: 500 }}>
         {label}{required && <span style={{ color: '#8a2020' }}> *</span>}
       </label>
     )}
@@ -117,9 +121,9 @@ export const Field = ({ label, error, required, children, style = {} }) => (
 );
 
 const inputStyle = {
-  width: '100%', padding: '10px 14px', border: '1px solid #ddd', borderRadius: 2,
-  fontSize: 14, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box',
-  transition: 'border-color 0.15s',
+  width: '100%', padding: '12px 16px', border: '1px solid rgba(0,0,0,0.1)', borderRadius: 4,
+  fontSize: 14, fontFamily: 'inherit', fontWeight: 400, outline: 'none', boxSizing: 'border-box',
+  transition: 'border-color 0.25s', background: '#fff', color: '#0d0d0d'
 };
 
 export const Input = ({ label, error, required, ...props }) => (
@@ -145,41 +149,43 @@ export const Textarea = ({ label, error, required, ...props }) => (
 // ─── MODAL ───────────────────────────────────────────────────────────────────
 export const Modal = ({ title, onClose, children, width = '680px' }) => (
   <div style={{
-    position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.65)', zIndex: 1000,
+    position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.3)', zIndex: 1000,
     display: 'flex', alignItems: 'center', justifyContent: 'center',
-    backdropFilter: 'blur(4px)', padding: 16,
+    backdropFilter: 'blur(10px)', padding: 16,
   }}>
     <div style={{
-      background: '#fff', borderRadius: 2, width: `min(${width}, 95vw)`,
-      maxHeight: '92vh', overflow: 'auto', boxShadow: '0 24px 80px rgba(0,0,0,0.35)',
+      background: '#fff', borderRadius: 6, width: `min(${width}, 95vw)`,
+      maxHeight: '92vh', overflow: 'auto', boxShadow: '0 24px 80px rgba(0,0,0,0.1)',
+      border: '1px solid rgba(255,255,255,0.4)'
     }}>
       <div style={{
         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-        padding: '22px 32px', borderBottom: '1px solid #e8e8e8', position: 'sticky', top: 0, background: '#fff', zIndex: 1,
+        padding: '24px 36px', borderBottom: '1px solid rgba(0,0,0,0.04)', position: 'sticky', top: 0, background: '#fff', zIndex: 1,
       }}>
-        <h2 style={{ margin: 0, fontSize: 14, letterSpacing: 2, textTransform: 'uppercase', fontFamily: 'Georgia, serif' }}>{title}</h2>
-        <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#666', padding: 4 }}>
-          <Icon path={ICONS.x} size={18} />
+        <h2 style={{ margin: 0, fontSize: 15, letterSpacing: 1.5, textTransform: 'uppercase', fontWeight: 400 }}>{title}</h2>
+        <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#aaa', padding: 4, transition: 'color 0.2s' }} onMouseEnter={e => e.currentTarget.style.color = '#222'} onMouseLeave={e => e.currentTarget.style.color = '#aaa'}>
+          <Icon path={ICONS.x} size={22} />
         </button>
       </div>
-      <div style={{ padding: '28px 32px' }}>{children}</div>
+      <div style={{ padding: '32px 36px' }}>{children}</div>
     </div>
   </div>
 );
 
 // ─── STAT CARD ───────────────────────────────────────────────────────────────
-export const StatCard = ({ label, value, sub, icon, accent = '#111' }) => (
+export const StatCard = ({ label, value, sub, icon, accent = '#1a1a1a' }) => (
   <div style={{
-    background: '#fff', border: '1px solid #e8e8e8', borderRadius: 2,
-    padding: '26px 24px', borderTop: `3px solid ${accent}`,
+    background: '#fff', border: '1px solid rgba(0,0,0,0.04)', borderRadius: 6,
+    padding: '30px 28px', boxShadow: '0 4px 20px rgba(0,0,0,0.02)', position: 'relative', overflow: 'hidden'
   }}>
+    <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: accent, opacity: 0.15 }} />
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
       <div>
-        <p style={{ fontSize: 10, letterSpacing: 2, color: '#999', textTransform: 'uppercase', margin: '0 0 10px' }}>{label}</p>
-        <p style={{ fontSize: 26, fontWeight: 700, color: '#111', margin: '0 0 5px', fontFamily: 'Georgia, serif' }}>{value}</p>
-        {sub && <p style={{ fontSize: 11, color: '#888', margin: 0 }}>{sub}</p>}
+        <p style={{ fontSize: 10, letterSpacing: 2.5, color: '#777', textTransform: 'uppercase', margin: '0 0 14px', fontWeight: 500 }}>{label}</p>
+        <p style={{ fontSize: 28, fontWeight: 500, color: '#0d0d0d', margin: '0 0 6px' }}>{value}</p>
+        <p style={{ fontSize: 11, color: '#666', margin: 0, fontWeight: 400 }}>{sub}</p>
       </div>
-      <div style={{ color: '#ddd' }}><Icon path={ICONS[icon]} size={26} /></div>
+      <div style={{ color: 'rgba(0,0,0,0.08)' }}><Icon path={ICONS[icon]} size={32} /></div>
     </div>
   </div>
 );
@@ -205,23 +211,23 @@ export const Empty = ({ message = 'No hay datos disponibles' }) => (
 
 // ─── PAGE HEADER ─────────────────────────────────────────────────────────────
 export const PageHeader = ({ eyebrow, title, children }) => (
-  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 32 }}>
+  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 40 }}>
     <div>
-      {eyebrow && <h2 style={{ fontSize: 10, letterSpacing: 3, textTransform: 'uppercase', color: '#aaa', margin: '0 0 4px' }}>{eyebrow}</h2>}
-      <h1 style={{ fontSize: 30, fontFamily: 'Georgia, serif', margin: 0, color: '#111' }}>{title}</h1>
+      {eyebrow && <h2 style={{ fontSize: 11, letterSpacing: 3, textTransform: 'uppercase', color: '#777', margin: '0 0 8px', fontWeight: 500 }}>{eyebrow}</h2>}
+      <h1 style={{ fontSize: 32, fontWeight: 600, margin: 0, color: '#0d0d0d' }}>{title}</h1>
     </div>
-    {children && <div style={{ display: 'flex', gap: 10 }}>{children}</div>}
+    {children && <div style={{ display: 'flex', gap: 12 }}>{children}</div>}
   </div>
 );
 
 // ─── TABLE ───────────────────────────────────────────────────────────────────
 export const Table = ({ headers, children, isEmpty, emptyMsg }) => (
-  <div style={{ background: '#fff', border: '1px solid #e8e8e8', borderRadius: 2, overflow: 'hidden' }}>
+  <div style={{ background: '#fff', border: '1px solid rgba(0,0,0,0.06)', borderRadius: 6, overflow: 'hidden', boxShadow: '0 4px 15px rgba(0,0,0,0.01)' }}>
     <table style={{ width: '100%', borderCollapse: 'collapse' }}>
       <thead>
-        <tr style={{ background: '#111', color: '#fff' }}>
+        <tr style={{ background: '#fafafa', borderBottom: '1px solid rgba(0,0,0,0.08)' }}>
           {headers.map((h, i) => (
-            <th key={i} style={{ padding: '12px 16px', textAlign: 'left', fontSize: 9, letterSpacing: 1.5, textTransform: 'uppercase', fontWeight: 600, whiteSpace: 'nowrap' }}>{h}</th>
+            <th key={i} style={{ padding: '16px', textAlign: 'left', fontSize: 10, letterSpacing: 2, textTransform: 'uppercase', color: '#555', fontWeight: 500, whiteSpace: 'nowrap' }}>{h}</th>
           ))}
         </tr>
       </thead>
@@ -232,11 +238,11 @@ export const Table = ({ headers, children, isEmpty, emptyMsg }) => (
 );
 
 export const TR = ({ children, index }) => (
-  <tr style={{ borderBottom: '1px solid #f0f0f0', background: index % 2 === 0 ? '#fff' : '#fafafa' }}>
+  <tr style={{ borderBottom: '1px solid rgba(0,0,0,0.03)', background: 'transparent', transition: 'background 0.2s' }} onMouseEnter={e => e.currentTarget.style.background = '#fafafa'} onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
     {children}
   </tr>
 );
 
 export const TD = ({ children, style = {} }) => (
-  <td style={{ padding: '13px 16px', fontSize: 13, ...style }}>{children}</td>
+  <td style={{ padding: '16px', fontSize: 13, color: '#444', fontWeight: 400, ...style }}>{children}</td>
 );
