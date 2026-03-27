@@ -28,6 +28,11 @@ public class InvoiceController {
         return ResponseEntity.ok(invoiceService.updateStatus(id, body.get("status")));
     }
 
+    @PostMapping("/{id}/reintentar-afip")
+    public ResponseEntity<InvoiceResponseDTO> reintentarAfip(@PathVariable Long id) {
+        return ResponseEntity.ok(invoiceService.reintentarAfip(id));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) { invoiceService.delete(id); return ResponseEntity.noContent().build(); }
 

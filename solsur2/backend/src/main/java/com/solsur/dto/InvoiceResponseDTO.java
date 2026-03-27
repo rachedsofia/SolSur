@@ -11,4 +11,8 @@ public class InvoiceResponseDTO {
     private BigDecimal montoNeto, alicuotaIva, montoIva, total;
     private LocalDate fechaVencimiento, fechaEmision;
     private LocalDateTime createdAt;
+
+    // AFIP
+    private String cae;
+    private java.time.LocalDate caeVencimiento;
 }

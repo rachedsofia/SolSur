@@ -32,6 +32,12 @@ public class Invoice {
     @Column(length=30) @Builder.Default private String status = "Borrador";
     @Column(columnDefinition="TEXT") private String observaciones;
 
+    // ─── Campos AFIP ─────────────────────────────────────────────────────────
+    @Column(name="cae", length=20)           private String cae;
+    @Column(name="cae_vencimiento")          private LocalDate caeVencimiento;
+    @Column(name="afip_nro_comprobante")     private Long afipNroComprobante;
+    @Column(name="afip_resultado", length=5) private String afipResultado;
+
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="sale_id") private Sale sale;
 
